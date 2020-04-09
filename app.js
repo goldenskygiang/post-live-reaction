@@ -1,6 +1,3 @@
-require('dotenv').config();
-
-const https = require('https');
 const axios = require('axios').default;
 
 const pageId = process.env.PAGE_ID;
@@ -56,6 +53,4 @@ async function update_post() {
     console.log("----------");
 }
 
-while (true) {
-    await update_post();
-}
+setInterval(update_post, interval);
