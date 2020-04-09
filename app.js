@@ -13,6 +13,8 @@ function get_react_type(type) {
 
     var url = `https://graph.facebook.com/${postId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
+    console.log(url);
+
     var count = 0;
 
     https.get(url, (res) => {
