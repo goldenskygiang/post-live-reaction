@@ -1,0 +1,19 @@
+{
+  "name": "post-live-reaction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldenskygiang/post-live-reaction.git"
+  },
+  "author": "Truong Giang Vu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goldenskygiang/post-live-reaction/issues"
+  },
+  "homepage": "https://github.com/goldenskygiang/post-live-reaction#readme"
+}
