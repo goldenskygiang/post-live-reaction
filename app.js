@@ -17,7 +17,7 @@ function get_react_type(type) {
 
     var count = 0;
 
-    https.get(url, (res) => {
+    var req = https.get(url, (res) => {
         let data = '';
 
         res.on('data', (chunk) => { data += chunk; });
@@ -26,6 +26,8 @@ function get_react_type(type) {
             count = JSON.parse(data).reactions.summary.total_count;
         });
     });
+
+    req.end();
 
     return count;
 }
@@ -74,6 +76,7 @@ function update_post() {
     };
 
     var req = https.request(url, options);
+    req.end();
 }
 
 function create_post() {
