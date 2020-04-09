@@ -63,24 +63,17 @@ function update_post() {
         method: 'POST'
     };
     
-    https.request(url, options).on('error', (err) => {
+    https.request(url, options, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => { data += chunk; });
+
+        res.on('end', () => {
+            console.log(data);
+        });
+    }).on('error', (err) => {
         console.log(`Error: ${err.message}`);
     });
 }
 
-function create_post() {
-    var msg = get_text_content();
-    var url = `https://graph.facebook.com/${pageId}/feed?message=${msg}&access_token=${access_token}`;
-
-    var options = {
-        method: 'POST'
-    };
-
-    var req = https.request(url, options, (res) => {
-        postId = res.id;
-    });
-
-    req.end();
-}
-
-setInterval(update_post, interval);
+while (true) update_post();
