@@ -29,7 +29,7 @@ async function get_text_content() {
     let sad = await get_react_type(react_types[4]);
     let angry = await get_react_type(react_types[5]);
 
-    let text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
+    let text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này, chờ vài giây và refresh hoặc nhấn F5.
     Bài này hiện đang có
     ${likes} lượt like,
     ${loves} lượt tym,
