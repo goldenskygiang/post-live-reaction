@@ -24,7 +24,7 @@ function get_react_type(type) {
 
         res.on('end', () => {
             count = JSON.parse(data).reactions.summary.total_count;
-            console.log(JSON.parse(data).reactions.summary.total_count);
+            console.log(`Type ${type}: ${count}`);
         });
     }).on('error', (err) => {
         console.log(`Count Error: ${err.message}`);
