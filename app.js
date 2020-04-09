@@ -15,10 +15,9 @@ function get_react_type(type) {
 
     var url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
-    var count = 0;
-
     var req = https.get(url, (res) => {
         let data = '';
+        let count = 0;
 
         res.on('data', (chunk) => { data += chunk; });
 
