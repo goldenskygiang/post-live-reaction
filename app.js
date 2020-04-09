@@ -10,7 +10,7 @@ const react_types = [ "LIKE", "LOVE", "HAHA", "WOW", "SAD", "ANGRY" ];
 
 const postQueryId = `${pageId}_${postId}`;
 
-function get_react_type(type) {
+function get_react_type(type, callback) {
     if (postQueryId === "") return 0;
 
     var url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
@@ -24,9 +24,8 @@ function get_react_type(type) {
         res.on('end', () => {
             count = JSON.parse(data).reactions.summary.total_count;
             console.log(`Type ${type}: ${count}`);
+            callback(count);
         });
-
-        return count;
     }).on('error', (err) => {
         console.log(`Count Error: ${err.message}`);
     });
@@ -34,13 +33,19 @@ function get_react_type(type) {
     req.end();
 }
 
+function count_react(type) {
+    get_react_type(type, function(count) {
+        return count;
+    });
+}
+
 function get_text_content() {
-    var likes = get_react_type(react_types[0]);
-    var loves = get_react_type(react_types[1]);
-    var haha = get_react_type(react_types[2]);
-    var wow = get_react_type(react_types[3]);
-    var sad = get_react_type(react_types[4]);
-    var angry = get_react_type(react_types[5]);
+    var likes = count_react(react_types[0]);
+    var loves = count_react(react_types[1]);
+    var haha = count_react(react_types[2]);
+    var wow = count_react(react_types[3]);
+    var sad = count_react(react_types[4]);
+    var angry = count_react(react_types[5]);
 
     console.log(likes);
 
