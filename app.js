@@ -1,20 +1,17 @@
-const http = require('http');
+const https = require('https');
 
 const pageId = process.env.PAGE_ID;
 const fbAppId = process.env.FB_APP_ID;
 const access_token = process.env.ACCESS_TOKEN;
 const interval = process.env.POLLING_INTERVAL;
-
-var postId = "";
+const postId = process.env.POST_ID;
 
 const react_types = [ "LIKE", "LOVE", "HAHA", "WOW", "SAD", "ANGRY" ];
 
 function get_react_type(type) {
     if (postId === "") return 0;
 
-    var url =  `https://graph.facebook.com/${postId}
-    ?fields=reactions.type(${type}).limit(0).summary(total_count)
-    &access_token=${access_token}`;
+    var url = `https://graph.facebook.com/${postId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
     var count = 0;
 
@@ -30,7 +27,10 @@ function get_reactions() {
 
     for (let i = 0; i < reacts.length; i++) {
         reacts[i] = get_react_type(react_types[i]);
+        console.log(`Type ${react_types[i]}: ${reacts[i]}`);
     }
+    
+    console.log("-----");
 
     return reacts;
 }
@@ -45,16 +45,16 @@ function get_text_content() {
     var sad = reacts[4];
     var angry = reacts[5];
 
-    var text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.\n
-    Bài này hiện đang có \n
-    ${likes} lượt like, \n
-    ${loves} lượt tym, \n
-    ${haha} lượt haha, \n
-    ${wow} lượt wow, \n
-    ${sad} lượt sad \n
+    var text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
+    Bài này hiện đang có
+    ${likes} lượt like,
+    ${loves} lượt tym,
+    ${haha} lượt haha,
+    ${wow} lượt wow,
+    ${sad} lượt sad
     và ${angry} lượt phẫn nộ.`;
 
-    return text;
+    return encodeURI(text);
 }
 
 function update_post() {
@@ -65,9 +65,7 @@ function update_post() {
         method: 'POST'
     };
 
-    var req = http.request(url, options, (res) => {
-        postId = res.id;
-    });
+    var req = https.request(url, options);
 
     req.end();
 }
@@ -80,15 +78,11 @@ function create_post() {
         method: 'POST'
     };
 
-    var req = http.request(url, options, (res) => {
+    var req = https.request(url, options, (res) => {
         postId = res.id;
     });
 
     req.end();
-}
-
-if (postId === "") {
-    create_post();
 }
 
 setInterval(update_post, interval);
