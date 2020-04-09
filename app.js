@@ -15,7 +15,7 @@ function get_react_type(type) {
 
     var count = 0;
 
-    http.get(url, (res) => {
+    https.get(url, (res) => {
         count = res.reactions.summary.total_count;
     });
 
@@ -29,7 +29,7 @@ function get_reactions() {
         reacts[i] = get_react_type(react_types[i]);
         console.log(`Type ${react_types[i]}: ${reacts[i]}`);
     }
-    
+
     console.log("-----");
 
     return reacts;
