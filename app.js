@@ -17,19 +17,18 @@ function get_react_type(type) {
 
     var count = 0;
 
-    var req = https.get(url, (res) => {
+    https.get(url, (res) => {
         let data = '';
 
         res.on('data', (chunk) => { data += chunk; });
 
         res.on('end', () => {
             count = JSON.parse(data).reactions.summary.total_count;
+            console.log(JSON.parse(data).reactions.summary.total_count);
         });
+    }).on('error', (err) => {
+        console.log(`Count Error: ${err.message}`);
     });
-    
-    req.end();
-
-    console.log(`Type ${type}: ${count}`);
 
     return count;
 }
@@ -75,9 +74,10 @@ function update_post() {
     var options = {
         method: 'POST'
     };
-
-    var req = https.request(url, options);
-    req.end();
+    
+    https.request(url, options).on('error', (err) => {
+        console.log(`Error: ${err.message}`);
+    });
 }
 
 function create_post() {
