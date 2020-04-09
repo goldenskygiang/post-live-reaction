@@ -1,4 +1,7 @@
+require('dotenv').config();
+
 const https = require('https');
+const axios = require('axios').default;
 
 const pageId = process.env.PAGE_ID;
 const fbAppId = process.env.FB_APP_ID;
@@ -10,46 +13,29 @@ const react_types = [ "LIKE", "LOVE", "HAHA", "WOW", "SAD", "ANGRY" ];
 
 const postQueryId = `${pageId}_${postId}`;
 
-function get_react_type(type, callback) {
+async function get_react_type(type) {
     if (postQueryId === "") return 0;
 
-    var url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
+    let url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
-    var req = https.get(url, (res) => {
-        let data = '';
-        let count = 0;
+    const response = await (await axios.get(url)).data;
+    console.log(response);
 
-        res.on('data', (chunk) => { data += chunk; });
-
-        res.on('end', () => {
-            count = JSON.parse(data).reactions.summary.total_count;
-            console.log(`Type ${type}: ${count}`);
-            callback(count);
-        });
-    }).on('error', (err) => {
-        console.log(`Count Error: ${err.message}`);
-    });
-
-    req.end();
+    let count = response.reactions.summary.total_count;
+    return count;
 }
 
-function count_react(type) {
-    get_react_type(type, function(count) {
-        return count;
-    });
-}
-
-function get_text_content() {
-    var likes = count_react(react_types[0]);
-    var loves = count_react(react_types[1]);
-    var haha = count_react(react_types[2]);
-    var wow = count_react(react_types[3]);
-    var sad = count_react(react_types[4]);
-    var angry = count_react(react_types[5]);
+async function get_text_content() {
+    let likes = await get_react_type(react_types[0]);
+    let loves = await get_react_type(react_types[1]);
+    let haha = await get_react_type(react_types[2]);
+    let wow = await get_react_type(react_types[3]);
+    let sad = await get_react_type(react_types[4]);
+    let angry = await get_react_type(react_types[5]);
 
     console.log(likes);
 
-    var text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
+    let text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
     Bài này hiện đang có
     ${likes} lượt like,
     ${loves} lượt tym,
@@ -61,27 +47,11 @@ function get_text_content() {
     return encodeURI(text);
 }
 
-function update_post() {
-    var msg = get_text_content();
-    var url = `https://graph.facebook.com/${postQueryId}?message=${msg}&access_token=${access_token}`;
+async function update_post() {
+    let msg = await get_text_content();
+    let url = `https://graph.facebook.com/${postQueryId}?message=${msg}&access_token=${access_token}`;
 
-    var options = {
-        method: 'POST'
-    };
-    
-    var req = https.request(url, options, (res) => {
-        let data = '';
-
-        res.on('data', (chunk) => { data += chunk; });
-
-        res.on('end', () => {
-            console.log(data);
-        });
-    }).on('error', (err) => {
-        console.log(`Error: ${err.message}`);
-    });
-
-    req.end();
+    await axios.post(url);
 
     console.log("----------");
 }

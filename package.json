@@ -19,5 +19,8 @@
   "homepage": "https://github.com/goldenskygiang/post-live-reaction#readme",
   "devDependencies": {
     "dotenv": "^8.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
   }
 }
