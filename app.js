@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const infinite_loop = require('infinite-loop');
 
 const pageId = process.env.PAGE_ID;
 const fbAppId = process.env.FB_APP_ID;
@@ -48,8 +49,4 @@ async function update_post() {
     await axios.post(url);
 }
 
-(async () => {
-    while (true) {
-        await update_post();
-    }
-})();
+infinite_loop.add(update_post, []).run();
