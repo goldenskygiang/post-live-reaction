@@ -8,10 +8,12 @@ const postId = process.env.POST_ID;
 
 const react_types = [ "LIKE", "LOVE", "HAHA", "WOW", "SAD", "ANGRY" ];
 
-function get_react_type(type) {
-    if (postId === "") return 0;
+const postQueryId = `${pageId}_${postId}`;
 
-    var url = `https://graph.facebook.com/${postId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
+function get_react_type(type) {
+    if (postQueryId === "") return 0;
+
+    var url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
     console.log(url);
 
@@ -61,7 +63,7 @@ function get_text_content() {
 
 function update_post() {
     var msg = get_text_content();
-    var url = `https://graph.facebook.com/${postId}?message=${msg}&access_token=${access_token}`;
+    var url = `https://graph.facebook.com/${postQueryId}?message=${msg}&access_token=${access_token}`;
 
     var options = {
         method: 'POST'
