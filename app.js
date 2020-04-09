@@ -56,4 +56,6 @@ async function update_post() {
     console.log("----------");
 }
 
-setInterval(update_post, interval);
+while (true) {
+    await update_post();
+}
