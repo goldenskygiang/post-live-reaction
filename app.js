@@ -41,6 +41,8 @@ function get_text_content() {
     var sad = get_react_type(react_types[4]);
     var angry = get_react_type(react_types[5]);
 
+    console.log(likes);
+
     var text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
     Bài này hiện đang có
     ${likes} lượt like,
@@ -60,8 +62,6 @@ function update_post() {
     var options = {
         method: 'POST'
     };
-
-    console.log(url);
     
     https.request(url, options).on('error', (err) => {
         console.log(`Error: ${err.message}`);
