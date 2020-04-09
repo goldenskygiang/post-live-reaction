@@ -74,6 +74,8 @@ function update_post() {
     var options = {
         method: 'POST'
     };
+
+    console.log(url);
     
     https.request(url, options).on('error', (err) => {
         console.log(`Error: ${err.message}`);
