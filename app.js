@@ -49,4 +49,5 @@ async function update_post() {
     await axios.post(url);
 }
 
-infinite_loop.add(update_post, []).run();
+var il = new infinite_loop;
+il.add(update_post).run();
