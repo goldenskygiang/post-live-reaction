@@ -16,7 +16,6 @@ async function get_react_type(type) {
     let url = `https://graph.facebook.com/${postQueryId}?fields=reactions.type(${type}).limit(0).summary(total_count)&access_token=${access_token}`;
 
     const response = await (await axios.get(url)).data;
-    console.log(response);
 
     let count = response.reactions.summary.total_count;
     return count;
@@ -29,8 +28,6 @@ async function get_text_content() {
     let wow = await get_react_type(react_types[3]);
     let sad = await get_react_type(react_types[4]);
     let angry = await get_react_type(react_types[5]);
-
-    console.log(likes);
 
     let text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
     Bài này hiện đang có
@@ -49,8 +46,10 @@ async function update_post() {
     let url = `https://graph.facebook.com/${postQueryId}?message=${msg}&access_token=${access_token}`;
 
     await axios.post(url);
-
-    console.log("----------");
 }
 
-setInterval(update_post, interval);
+(async () => {
+    while (true) {
+        await update_post();
+    }
+})();
