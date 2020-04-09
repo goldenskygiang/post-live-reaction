@@ -26,8 +26,10 @@ function get_react_type(type) {
             count = JSON.parse(data).reactions.summary.total_count;
         });
     });
-
+    
     req.end();
+
+    console.log(`Type ${type}: ${count}`);
 
     return count;
 }
@@ -37,7 +39,6 @@ function get_reactions() {
 
     for (let i = 0; i < reacts.length; i++) {
         reacts[i] = get_react_type(react_types[i]);
-        console.log(`Type ${react_types[i]}: ${reacts[i]}`);
     }
 
     console.log("-----");
