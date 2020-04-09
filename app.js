@@ -33,27 +33,13 @@ function get_react_type(type) {
     return count;
 }
 
-function get_reactions() {
-    var reacts = new Array(6);
-
-    for (let i = 0; i < reacts.length; i++) {
-        reacts[i] = get_react_type(react_types[i]);
-    }
-
-    console.log("-----");
-
-    return reacts;
-}
-
 function get_text_content() {
-    var reacts = get_reactions();
-
-    var likes = reacts[0];
-    var loves = reacts[1];
-    var haha = reacts[2];
-    var wow = reacts[3];
-    var sad = reacts[4];
-    var angry = reacts[5];
+    var likes = get_react_type(react_types[0]);
+    var loves = get_react_type(react_types[1]);
+    var haha = get_react_type(react_types[2]);
+    var wow = get_react_type(react_types[3]);
+    var sad = get_react_type(react_types[4]);
+    var angry = get_react_type(react_types[5]);
 
     var text = `Nếu bạn đọc được bài viết này, hãy thả react bất kỳ cho bài viết này và refresh hoặc nhấn F5.
     Bài này hiện đang có
