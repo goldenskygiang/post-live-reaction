@@ -19,6 +19,8 @@ async function get_react_type(type) {
     const response = await (await axios.get(url)).data;
 
     let count = response.reactions.summary.total_count;
+
+    console.log(`Type ${type}: ${count}`);
     return count;
 }
 
@@ -47,6 +49,7 @@ async function update_post() {
     let url = `https://graph.facebook.com/${postQueryId}?message=${msg}&access_token=${access_token}`;
 
     await axios.post(url);
+    console.log("----------");
 }
 
 var il = new infinite_loop;
