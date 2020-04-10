@@ -2,10 +2,9 @@ const axios = require('axios').default;
 const infinite_loop = require('infinite-loop');
 
 const pageId = process.env.PAGE_ID;
-const fbAppId = process.env.FB_APP_ID;
 const access_token = process.env.ACCESS_TOKEN;
-const interval = process.env.POLLING_INTERVAL;
 const postId = process.env.POST_ID;
+const interval = process.env.POLLING_INTERVAL;
 
 const react_types = [ "LIKE", "LOVE", "HAHA", "WOW", "SAD", "ANGRY" ];
 
@@ -53,4 +52,4 @@ async function update_post() {
 }
 
 var il = new infinite_loop;
-il.add(update_post).run();
+il.add(update_post).setInterval(interval).run();
